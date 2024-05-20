@@ -11,8 +11,9 @@ var availableCommands = [3]string{"add", "rm", "ls"}
 
 func main() {
 	args := os.Args[1:]
-	if(checkArgs(args))
+	if checkArgs(args) {
 		fmt.Println("Task created!")
+	}
 }
 
 // 1:command 2: task 3: modifier
