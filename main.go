@@ -8,6 +8,7 @@ import (
 )
 
 var availableCommands = [3]string{"add", "rm", "ls"}
+var invalidTaskSymbols = "!\"#$%&'()*+;/=?@[\\]^_{|}~-"
 
 func main() {
 	args := os.Args[1:]
@@ -34,7 +35,8 @@ func checkArgs(args []string) bool {
 	}
 
 	if !checkTask(args[1]) {
-		fmt.Println("Invalid task name...")
+		fmt.Println("Invalid task name, it can't contain the following symbols:", invalidTaskSymbols)
+		return false
 	}
 
 	return true
@@ -51,7 +53,7 @@ func checkTask(task string) bool {
 		return false
 	}
 
-	if strings.ContainsAny(trimmedTask, "-,_+=)(.;[]}{\\|/?!@#$%¨&*_^^~~'\"") {
+	if strings.ContainsAny(trimmedTask, invalidTaskSymbols) {
 		return false
 	}
 
