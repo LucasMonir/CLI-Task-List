@@ -5,7 +5,3 @@ type Task struct {
 	Id       int    `json:"id"`
 	Priority int    `json:"priority"`
 }
-
-type Tasks struct {
-	Tasks []Task `json:"tasks"`
-}
