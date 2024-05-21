@@ -7,17 +7,20 @@ import (
 	"strings"
 )
 
+var jsonPath = "task.json"
 var availableCommands = [3]string{"add", "rm", "ls"}
 var invalidTaskSymbols = "!\"#$%&'()*+;/=?@[\\]^_{|}~-"
 
 func main() {
 	args := os.Args[1:]
-	if checkArgs(args) {
-		fmt.Println("Task created!")
+	if !checkArgs(args) {
+		return
 	}
+
+	tasks := readTasks(jsonPath)
+	printTasks(tasks)
 }
 
-// 1:command 2: task 3: modifier
 func checkArgs(args []string) bool {
 	if len(args) < 2 {
 		fmt.Println("Usage: <Command> <taskName>")
@@ -58,4 +61,18 @@ func checkTask(task string) bool {
 	}
 
 	return true
+}
+
+func printTasks(tasks []Task) {
+	for _, task := range tasks {
+		printTask(task)
+	}
+}
+
+func printTask(task Task) {
+	fmt.Printf("ID: %d", task.Id)
+	fmt.Print(" | ")
+	fmt.Printf("Task: %v", task.Task)
+	fmt.Print(" | ")
+	fmt.Printf("Priority: %d", task.Priority)
 }
