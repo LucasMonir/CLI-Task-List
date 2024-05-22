@@ -69,7 +69,3 @@ func printTasks(tasks []Task) {
 		fmt.Println(task.ToString())
 	}
 }
-
-func writeJson(json []byte) error {
-	return os.WriteFile(getTaskFilePath(), json, 0644)
-}

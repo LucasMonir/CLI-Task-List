@@ -52,3 +52,7 @@ func initTaskFile() {
 		fmt.Println(err.Error())
 	}
 }
+
+func writeJson(json []byte) error {
+	return os.WriteFile(getTaskFilePath(), json, 0644)
+}
