@@ -18,7 +18,6 @@ var task Task
 type Add struct{}
 type List struct{}
 
-// Add
 func (command Add) Name() string {
 	return "add"
 }
@@ -48,7 +47,6 @@ func (command Add) Execute(args []string, jsonPath string) bool {
 	return !checkErr(err)
 }
 
-// List
 func (command List) Name() string {
 	return "ls"
 }
@@ -65,7 +63,6 @@ func (command List) ArgCount() int {
 	return 1
 }
 
-// Generic
 func checkTaskAdd(args []string) (bool, error) {
 	checkTask(args[1])
 	task.Task = args[1]
