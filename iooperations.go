@@ -7,11 +7,12 @@ import (
 	"os"
 )
 
-func readTasks(jsonPath string) []Task {
+func readTasks() []Task {
 	var tasks []Task
+	jsonPath := getTaskFilePath()
 
-	if !checkTaskFileExists(jsonPath) {
-		initTaskFile(jsonPath)
+	if !checkTaskFileExists() {
+		initTaskFile()
 		return tasks
 	}
 
@@ -30,18 +31,22 @@ func readTasks(jsonPath string) []Task {
 	return tasks
 }
 
-func checkTaskFileExists(jsonPath string) bool {
+func checkTaskFileExists() bool {
+	jsonPath := getTaskFilePath()
+
 	info, err := os.Stat(jsonPath)
 
 	if os.IsNotExist(err) || checkErr(err) || info.IsDir() {
 		fmt.Println("Creating task file")
-		initTaskFile(jsonPath)
+		initTaskFile()
 	}
 
 	return true
 }
 
-func initTaskFile(jsonPath string) {
+func initTaskFile() {
+	jsonPath := getTaskFilePath()
+
 	err := os.WriteFile(jsonPath, []byte(""), fs.ModePerm)
 	if checkErr(err) {
 		fmt.Println(err.Error())

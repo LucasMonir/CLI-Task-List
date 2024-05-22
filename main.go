@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
-var jsonPath = "task.json"
 var invalidTaskSymbols = "!\"#$%&'()*+;/=?@[\\]^_{|}~-"
 var availableCommands []string
 
@@ -18,7 +18,12 @@ func main() {
 	buildCommands()
 	args := os.Args[1:]
 
-	if !checkArgs(args) || !checkCommand(args[0]) {
+	if !checkArgs(args) {
+		return
+	}
+
+	if !checkCommand(args[0]) {
+		fmt.Println("Command not found, available commands: ", strings.Join(availableCommands, ", "))
 		return
 	}
 
@@ -28,7 +33,7 @@ func main() {
 		fmt.Printf("Incompatible number of arguments, expected: %d", command.ArgCount())
 	}
 
-	command.Execute(args, jsonPath)
+	command.Execute(args)
 }
 
 func buildCommands() {
