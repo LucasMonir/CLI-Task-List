@@ -15,27 +15,11 @@ func checkErr(err error) bool {
 }
 
 func checkArgs(args []string) bool {
-	if len(args) < 2 {
-		fmt.Println("Usage: <Command> <taskName>")
-		return false
-	}
+	return len(args) != 0
+}
 
-	if len(args) > 3 {
-		fmt.Println("No command uses 3 arguments...")
-		return false
-	}
-
-	if !checkCommand(args[0]) {
-		fmt.Printf("Invalid Command, available commands: %v", availableCommands)
-		return false
-	}
-
-	if !checkTask(args[1]) {
-		fmt.Println("Invalid task name, it can't contain the following symbols:", invalidTaskSymbols)
-		return false
-	}
-
-	return true
+func checkCommandParams(command Command, args int) bool {
+	return command.ArgCount() == args
 }
 
 func checkCommand(command string) bool {
@@ -58,14 +42,6 @@ func checkTask(task string) bool {
 
 func printTasks(tasks []Task) {
 	for _, task := range tasks {
-		printTask(task)
+		fmt.Println(task.ToString())
 	}
-}
-
-func printTask(task Task) {
-	fmt.Printf("ID: %d", task.Id)
-	fmt.Print(" | ")
-	fmt.Printf("Task: %v", task.Task)
-	fmt.Print(" | ")
-	fmt.Printf("Priority: %d", task.Priority)
 }
