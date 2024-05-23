@@ -1,4 +1,4 @@
-package main
+package models
 
 import "fmt"
 
@@ -10,4 +10,10 @@ type Task struct {
 
 func (task *Task) ToString() string {
 	return fmt.Sprintf("ID: %d | Task: %v | Priority: %d", task.Id, task.Task, task.Priority)
+}
+
+func PrintTasks(tasks []Task) {
+	for _, task := range tasks {
+		fmt.Println(task.ToString())
+	}
 }

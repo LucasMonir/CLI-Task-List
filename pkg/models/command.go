@@ -1,9 +1,11 @@
-package main
+package models
 
 import (
+	util "clitest/pkg/utilitary"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
 	"strconv"
 )
 
@@ -32,22 +34,22 @@ func (command Add) ArgCount() int {
 func (command Add) Execute(args []string) bool {
 	_, err := checkTaskAdd(args)
 
-	if checkErr(err) {
+	if util.CheckErr(err) {
 		return false
 	}
 
-	tasks := readTasks()
+	tasks := ReadTasks()
 	task.Id = tasks[len(tasks)-1].Id
 	tasks = append(tasks, task)
 	json, err := json.MarshalIndent(tasks, "", "	")
 
-	if checkErr(err) {
+	if util.CheckErr(err) {
 		return false
 	}
 
-	err = writeJson(json)
+	err = util.WriteJson(json)
 
-	return !checkErr(err)
+	return !util.CheckErr(err)
 }
 
 func (command List) Name() string {
@@ -55,9 +57,9 @@ func (command List) Name() string {
 }
 
 func (command List) Execute(_ []string) bool {
-	tasks := readTasks()
+	tasks := ReadTasks()
 
-	printTasks(tasks)
+	PrintTasks(tasks)
 
 	return true
 }
@@ -74,13 +76,17 @@ func (command Delete) ArgCount() int {
 	return 2
 }
 
+func CheckCommandParams(command Command, args int) bool {
+	return command.ArgCount() == args
+}
+
 func checkTaskAdd(args []string) (bool, error) {
-	checkTask(args[1])
+	util.CheckTask(args[1])
 	task.Task = args[1]
 
 	if len(args) == 3 {
 		priority, err := strconv.Atoi(args[2])
-		if checkErr(err) {
+		if util.CheckErr(err) {
 			return false, errors.New("error while adding priority")
 		}
 		task.Priority = priority
@@ -97,4 +103,28 @@ func findItemIndex(tasks []Task, id int) (int, error) {
 	}
 
 	return 0, fmt.Errorf("No item found matching %d", id)
+}
+
+func ReadTasks() []Task {
+	var tasks []Task
+	jsonPath := util.GetTaskFilePath()
+
+	if !util.CheckTaskFileExists() {
+		util.InitTaskFile()
+		return tasks
+	}
+
+	jsonFile, err := os.ReadFile(jsonPath)
+
+	if util.CheckErr(err) {
+		return tasks
+	}
+
+	err = json.Unmarshal(jsonFile, &tasks)
+
+	if util.CheckErr(err) {
+		return tasks
+	}
+
+	return tasks
 }
