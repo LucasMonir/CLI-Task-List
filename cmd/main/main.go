@@ -24,7 +24,7 @@ func main() {
 		return
 	}
 
-	if !CheckCommand(args[0]) {
+	if !checkCommand(args[0]) {
 		fmt.Println("Command not found, available commands: ", strings.Join(availableCommands, ", "))
 		return
 	}
@@ -38,12 +38,14 @@ func main() {
 	command.Execute(args)
 }
 
+// buildCommands builds the available commands list
 func buildCommands() {
 	for command := range commands {
 		availableCommands = append(availableCommands, command)
 	}
 }
 
-func CheckCommand(command string) bool {
+// checkCommand checks if command inserted is contained in the available commands list
+func checkCommand(command string) bool {
 	return slices.Contains(availableCommands[:], command)
 }

@@ -1,3 +1,4 @@
+// Package Utils is dedicated to general utilities used by other files
 package utils
 
 import (
@@ -7,12 +8,14 @@ import (
 	"strings"
 )
 
+// Path is used to unmarshal the path of the task.json file
 type Path struct {
 	TasksPath string `json:"tasksPath"`
 }
 
 var invalidTaskSymbols = "!\"#$%&'()*+;/=?@[\\]^_{|}~-"
 
+// GetTaskFilePath recovers the path of the task.json from the configuration file
 func GetTaskFilePath() string {
 	configsJson, err := os.ReadFile("configs.json")
 
@@ -31,6 +34,7 @@ func GetTaskFilePath() string {
 	return path.TasksPath
 }
 
+// CheckErr is utilized to check if an error happened and to log it to console.
 func CheckErr(err error) bool {
 	if err != nil {
 		fmt.Println(err)
@@ -39,10 +43,12 @@ func CheckErr(err error) bool {
 	return false
 }
 
+// CheckArgs checks length of args param
 func CheckArgs(args []string) bool {
 	return len(args) != 0
 }
 
+// CheckTask validates if task already exists in the listing
 func CheckTask(task string) bool {
 	trimmedTask := strings.TrimSpace(task)
 

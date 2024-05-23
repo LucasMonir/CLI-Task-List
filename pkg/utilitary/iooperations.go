@@ -1,3 +1,4 @@
+// Package iooperations is dedicated to methods related to I/O
 package utils
 
 import (
@@ -6,6 +7,7 @@ import (
 	"os"
 )
 
+// CheckTaskFileExists validates the existance of the task.json file
 func CheckTaskFileExists() bool {
 	jsonPath := GetTaskFilePath()
 
@@ -19,6 +21,7 @@ func CheckTaskFileExists() bool {
 	return true
 }
 
+// InitTaskFile creates the task.json file
 func InitTaskFile() {
 	jsonPath := GetTaskFilePath()
 
@@ -28,6 +31,7 @@ func InitTaskFile() {
 	}
 }
 
+// WriteJson writes data to the task.json file
 func WriteJson(json []byte) error {
 	return os.WriteFile(GetTaskFilePath(), json, 0644)
 }
