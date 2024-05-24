@@ -44,7 +44,13 @@ func (command Add) Execute(args []string) bool {
 	}
 
 	tasks := ReadTasks()
-	task.Id = tasks[len(tasks)-1].Id
+
+	if len(tasks) != 0 {
+		task.Id = tasks[len(tasks)-1].Id + 1
+	} else {
+		task.Id = 1
+	}
+
 	tasks = append(tasks, task)
 	json, err := json.MarshalIndent(tasks, "", "	")
 
@@ -54,7 +60,13 @@ func (command Add) Execute(args []string) bool {
 
 	err = util.WriteJson(json)
 
-	return !util.CheckErr(err)
+	if util.CheckErr(err) {
+		fmt.Println("Error while creating task, aborting...")
+		return false
+	}
+
+	fmt.Printf("Task '%d - %s' created sucessfully!", task.Id, task.Task)
+	return true
 }
 
 // Name returns the name of the command, which is "ls" (list).

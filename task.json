@@ -1,12 +1,12 @@
 [
 	{
-		"task": "first",
+		"task": "test",
 		"id": 1,
-		"priority": 1
+		"priority": 0
 	},
 	{
-		"task": "taskfoda",
-		"id": 0,
+		"task": "test2",
+		"id": 2,
 		"priority": 0
 	}
 ]

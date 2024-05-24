@@ -13,7 +13,7 @@ func CheckTaskFileExists() bool {
 
 	info, err := os.Stat(jsonPath)
 
-	if os.IsNotExist(err) || CheckErr(err) || info.IsDir() {
+	if os.IsNotExist(err) || CheckErr(err) || info.IsDir() || IsFileEmpty(jsonPath) {
 		fmt.Println("Creating task file")
 		InitTaskFile()
 	}
@@ -21,11 +21,25 @@ func CheckTaskFileExists() bool {
 	return true
 }
 
+func IsFileEmpty(jsonPath string) bool {
+	file, err := os.ReadFile(jsonPath)
+
+	if CheckErr(err) {
+		return true
+	}
+
+	if len(file) == 0 {
+		return true
+	}
+
+	return false
+}
+
 // InitTaskFile creates the task.json file
 func InitTaskFile() {
 	jsonPath := GetTaskFilePath()
 
-	err := os.WriteFile(jsonPath, []byte(""), fs.ModePerm)
+	err := os.WriteFile(jsonPath, []byte("[]"), fs.ModePerm)
 	if CheckErr(err) {
 		fmt.Println(err.Error())
 	}

@@ -17,7 +17,7 @@ var invalidTaskSymbols = "!\"#$%&'()*+;/=?@[\\]^_{|}~-"
 
 // GetTaskFilePath recovers the path of the task.json from the configuration file
 func GetTaskFilePath() string {
-	configsJson, err := os.ReadFile("configs.json")
+	configsJson, err := os.ReadFile("../../configs.json")
 
 	if CheckErr(err) {
 		return ""
@@ -31,7 +31,7 @@ func GetTaskFilePath() string {
 		return ""
 	}
 
-	return path.TasksPath
+	return "../../" + path.TasksPath
 }
 
 // CheckErr is utilized to check if an error happened and to log it to console.
