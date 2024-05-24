@@ -18,13 +18,10 @@ var commands = map[string]models.Command{
 
 func main() {
 	buildCommands()
+
 	args := os.Args[1:]
 
-	if !utils.CheckArgs(args) {
-		return
-	}
-
-	if !checkCommand(args[0]) {
+	if !utils.CheckArgs(args) || !checkCommand(args[0]) {
 		fmt.Println("Command not found, available commands: ", strings.Join(availableCommands, ", "))
 		return
 	}
@@ -33,6 +30,7 @@ func main() {
 
 	if !models.CheckCommandParams(command, len(args)) {
 		fmt.Printf("Incompatible number of arguments, expected: %d", command.ArgCount())
+		return
 	}
 
 	command.Execute(args)
