@@ -12,8 +12,9 @@ import (
 var availableCommands []string
 
 var commands = map[string]models.Command{
-	models.Command.Name(models.Add{}):  models.Add{},
-	models.Command.Name(models.List{}): models.List{},
+	models.Command.Name(models.Add{}):    models.Add{},
+	models.Command.Name(models.List{}):   models.List{},
+	models.Command.Name(models.Delete{}): models.Delete{},
 }
 
 func main() {
@@ -34,6 +35,7 @@ func main() {
 	}
 
 	command.Execute(args)
+
 }
 
 // buildCommands builds the available commands list

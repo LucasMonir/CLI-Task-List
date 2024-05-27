@@ -16,6 +16,11 @@ func (task *Task) ToString() string {
 
 // PrintTasks prints the formatted tasks
 func PrintTasks(tasks []Task) {
+	if len(tasks) == 0 {
+		fmt.Println("No tasks registered yet!")
+		return
+	}
+
 	for _, task := range tasks {
 		fmt.Println(task.ToString())
 	}
