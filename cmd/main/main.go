@@ -1,7 +1,7 @@
 package main
 
 import (
-	"clitest/pkg/models"
+	commands "clitest/pkg/commands"
 	utils "clitest/pkg/utilitary"
 	"fmt"
 	"os"
@@ -11,10 +11,10 @@ import (
 
 var availableCommands []string
 
-var commands = map[string]models.Command{
-	models.Command.Name(models.Add{}):    models.Add{},
-	models.Command.Name(models.List{}):   models.List{},
-	models.Command.Name(models.Delete{}): models.Delete{},
+var commandsMap = map[string]commands.Command{
+	commands.Command.Name(commands.Add{}):    commands.Add{},
+	commands.Command.Name(commands.List{}):   commands.List{},
+	commands.Command.Name(commands.Delete{}): commands.Delete{},
 }
 
 func main() {
@@ -27,9 +27,9 @@ func main() {
 		return
 	}
 
-	command := commands[args[0]]
+	command := commandsMap[args[0]]
 
-	if !models.CheckCommandParams(command, len(args)) {
+	if !commands.CheckCommandParams(command, len(args)) {
 		fmt.Printf("Incompatible number of arguments, expected: %d", command.ArgCount())
 		return
 	}
@@ -40,7 +40,7 @@ func main() {
 
 // buildCommands builds the available commands list
 func buildCommands() {
-	for command := range commands {
+	for command := range commandsMap {
 		availableCommands = append(availableCommands, command)
 	}
 }

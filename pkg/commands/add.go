@@ -1,6 +1,7 @@
-package models
+package commands
 
 import (
+	models "clitest/pkg/models"
 	util "clitest/pkg/utilitary"
 	"encoding/json"
 	"fmt"
@@ -21,7 +22,7 @@ func (command Add) ArgCount() int {
 // Execute executes the "add" command. It reads task details from the arguments, adds the task to the list,
 // and writes the updated list to a JSON file.
 func (command Add) Execute(args []string) bool {
-	var task = Task{}
+	var task = models.Task{}
 	_, err := checkTaskAdd(args)
 
 	if util.CheckErr(err) {

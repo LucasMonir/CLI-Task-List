@@ -1,4 +1,6 @@
-package models
+package commands
+
+import models "clitest/pkg/models"
 
 type List struct{}
 
@@ -11,7 +13,7 @@ func (command List) Name() string {
 func (command List) Execute(_ []string) bool {
 	tasks := ReadTasks()
 
-	PrintTasks(tasks)
+	models.PrintTasks(tasks)
 
 	return true
 }

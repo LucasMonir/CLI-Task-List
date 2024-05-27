@@ -1,7 +1,8 @@
 // Package dedicate to the Command struct and it's operations.
-package models
+package commands
 
 import (
+	models "clitest/pkg/models"
 	util "clitest/pkg/utilitary"
 	"encoding/json"
 	"errors"
@@ -24,7 +25,7 @@ func CheckCommandParams(command Command, args int) bool {
 // checkTaskAdd validates and extracts task details from the arguments provided for adding a task.
 func checkTaskAdd(args []string) (bool, error) {
 	util.CheckTask(args[1])
-	var task = Task{}
+	var task = models.Task{}
 	task.Task = args[1]
 
 	if len(args) == 3 {
@@ -39,7 +40,7 @@ func checkTaskAdd(args []string) (bool, error) {
 }
 
 // findItemIndex finds the index of a task with a given ID in the task list.
-func findItemIndex(tasks []Task, id int) (int, error) {
+func findItemIndex(tasks []models.Task, id int) (int, error) {
 	for index, task := range tasks {
 		if task.Id == id {
 			return index, nil
@@ -50,8 +51,8 @@ func findItemIndex(tasks []Task, id int) (int, error) {
 }
 
 // ReadTasks reads tasks from a JSON file and returns them as a slice of Task structs.
-func ReadTasks() []Task {
-	var tasks []Task
+func ReadTasks() []models.Task {
+	var tasks []models.Task
 	jsonPath := util.GetTaskFilePath()
 
 	if !util.CheckTaskFileExists() {

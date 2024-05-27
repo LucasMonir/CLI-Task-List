@@ -1,4 +1,4 @@
-package models
+package command
 
 import (
 	util "clitest/pkg/utilitary"
