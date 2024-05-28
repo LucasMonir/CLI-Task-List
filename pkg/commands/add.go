@@ -29,7 +29,7 @@ func (command Add) Execute(args []string) bool {
 		return false
 	}
 
-	tasks := ReadTasks()
+	tasks := readTasks()
 
 	if len(tasks) != 0 {
 		task.Id = tasks[len(tasks)-1].Id + 1

@@ -11,7 +11,7 @@ func (command List) Name() string {
 
 // Execute executes the "list" command. It reads tasks from a JSON file and prints them.
 func (command List) Execute(_ []string) bool {
-	tasks := ReadTasks()
+	tasks := readTasks()
 
 	models.PrintTasks(tasks)
 

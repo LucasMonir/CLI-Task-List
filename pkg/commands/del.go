@@ -27,7 +27,7 @@ func (command Delete) Execute(args []string) bool {
 		return false
 	}
 
-	tasks := ReadTasks()
+	tasks := readTasks()
 	index, err := findItemIndex(tasks, id)
 	task := tasks[index]
 

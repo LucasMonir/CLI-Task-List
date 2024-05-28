@@ -51,7 +51,7 @@ func findItemIndex(tasks []models.Task, id int) (int, error) {
 }
 
 // ReadTasks reads tasks from a JSON file and returns them as a slice of Task structs.
-func ReadTasks() []models.Task {
+func readTasks() []models.Task {
 	var tasks []models.Task
 	jsonPath := util.GetTaskFilePath()
 
