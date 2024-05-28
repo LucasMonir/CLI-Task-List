@@ -10,7 +10,7 @@ type Task struct {
 
 // ToString formats a task to be printed
 func (task *Task) ToString() string {
-	return fmt.Sprintf("ID: %d | Task: %v | Priority: %d", task.Id, task.Task)
+	return fmt.Sprintf("ID: %d | Task: %v", task.Id, task.Task)
 }
 
 // PrintTasks prints the formatted tasks
