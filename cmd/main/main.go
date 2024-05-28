@@ -1,15 +1,14 @@
 package main
 
 import (
-	commands "clitest/pkg/commands"
-	utils "clitest/pkg/utilitary"
 	"fmt"
 	"os"
 	"slices"
 	"strings"
-)
 
-var availableCommands []string
+	"clitest/pkg/commands"
+	utils "clitest/pkg/utilitary"
+)
 
 var commandsMap = map[string]commands.Command{
 	commands.Command.Name(commands.Add{}):    commands.Add{},
@@ -18,34 +17,38 @@ var commandsMap = map[string]commands.Command{
 }
 
 func main() {
-	buildCommands()
+	availableCommands := buildCommands()
 
 	args := os.Args[1:]
 
-	if !utils.CheckArgs(args) || !checkCommand(args[0]) {
-		fmt.Println("Command not found, available commands: ", strings.Join(availableCommands, ", "))
+	if err := validateArgs(args, availableCommands); err != nil {
+		fmt.Println(err)
 		return
 	}
 
 	command := commandsMap[args[0]]
 
-	if !commands.CheckCommandParams(command, len(args)) {
-		fmt.Printf("Incompatible number of arguments, expected: %d", command.ArgCount())
+	if ok := commands.CheckCommandParams(command, len(args)); !ok {
+		fmt.Printf("Incompatible number of arguments, expected: %d\n", command.ArgCount())
 		return
 	}
 
 	command.Execute(args)
-
 }
 
 // buildCommands builds the available commands list
-func buildCommands() {
+func buildCommands() []string {
+	var commandsList []string
 	for command := range commandsMap {
-		availableCommands = append(availableCommands, command)
+		commandsList = append(commandsList, command)
 	}
+	return commandsList
 }
 
-// checkCommand checks if command inserted is contained in the available commands list
-func checkCommand(command string) bool {
-	return slices.Contains(availableCommands[:], command)
+// validateArgs checks if the arguments are valid and if the command exists
+func validateArgs(args, availableCommands []string) error {
+	if !utils.CheckArgs(args) || !slices.Contains(availableCommands, args[0]) {
+		return fmt.Errorf("command not found, available commands: %s", strings.Join(availableCommands, ", "))
+	}
+	return nil
 }
