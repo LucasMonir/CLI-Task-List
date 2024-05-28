@@ -5,10 +5,8 @@ import (
 	models "clitest/pkg/models"
 	util "clitest/pkg/utilitary"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 type Command interface {
@@ -27,14 +25,6 @@ func checkTaskAdd(args []string) (bool, error) {
 	util.CheckTask(args[1])
 	var task = models.Task{}
 	task.Task = args[1]
-
-	if len(args) == 3 {
-		priority, err := strconv.Atoi(args[2])
-		if util.CheckErr(err) {
-			return false, errors.New("error while adding priority")
-		}
-		task.Priority = priority
-	}
 
 	return true, nil
 }
